@@ -2,7 +2,7 @@ const vscode = require('vscode')
 
 // UTILS
 const gists = require('./utils/gists.json')
-const showSearchInput = require('./utils/showSearchInput')
+const showAlgorithmPicker = require('./utils/showAlgorithmPicker')
 const showLanguagePicker = require('./utils/showLanguagePicker')
 
 /**
@@ -12,22 +12,27 @@ const showLanguagePicker = require('./utils/showLanguagePicker')
  */
 function activate(context) {
 	vscode.commands.registerCommand('algosnips.search', async () => {
-		// Show search bar to search for a snippet
-		let searchStr = await showSearchInput().catch((err) => {
+		// Show search bar to choose an algorithm
+		let chosenAlgorithm = await showAlgorithmPicker(
+			Object.keys(gists.algorithms)
+		).catch((err) => {
 			vscode.window.showErrorMessage(err.message)
 		})
-		if (!searchStr || !searchStr.trim().length) {
-			vscode.window.showErrorMessage('Received an empty search string')
+		if (!chosenAlgorithm) {
+			vscode.window.showErrorMessage('invalid algorithm choice')
 			return
 		}
 
-		// once the search string is obtained,
+		// once the algorithm is chose,
 		// let the user choose a language
-		let language = await showLanguagePicker(gists.languages).catch((err) => {
+		let language = await showLanguagePicker(
+			Object.keys(gists.algorithms[chosenAlgorithm.name])
+		).catch((err) => {
 			vscode.window.showErrorMessage(err.message)
-    })
-    if(!language)
-      vscode.window.showErrorMessage("invalid language choice")
+		})
+    if (!language) vscode.window.showErrorMessage('invalid language choice')
+    
+    
 	})
 }
 exports.activate = activate
