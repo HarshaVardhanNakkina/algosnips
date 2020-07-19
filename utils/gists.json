@@ -1,3 +1,28 @@
 {
-  "languages": ["C", "CPP", "JavaScript", "Python"]
+	"algorithms": {
+		"merge sort": {
+			"C": {},
+			"CPP": {},
+			"JavaScript": {},
+			"Python": {}
+		},
+		"binary search": {
+			"C": {},
+			"CPP": {},
+			"JavaScript": {},
+			"Python": {}
+		},
+		"reverse string": {
+			"C": {},
+			"CPP": {},
+			"JavaScript": {},
+			"Python": {}
+		},
+		"quick sort": {
+			"C": {},
+			"CPP": {},
+			"JavaScript": {},
+			"Python": {}
+		}
+	}
 }
