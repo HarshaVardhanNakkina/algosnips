@@ -1,7 +1,10 @@
 {
 	"algorithms": {
 		"merge sort": {
-			"C": {},
+			"C": {
+				"filename": "mergesort.c",
+				"gistId": "f8ec0c4bd1b5d8f8d898a395fb21ca94"
+			},
 			"CPP": {},
 			"JavaScript": {},
 			"Python": {}
