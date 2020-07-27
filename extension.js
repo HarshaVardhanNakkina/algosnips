@@ -4,6 +4,7 @@ const vscode = require('vscode')
 const gists = require('./utils/gists.json')
 const showAlgorithmPicker = require('./utils/showAlgorithmPicker')
 const showLanguagePicker = require('./utils/showLanguagePicker')
+const fetchGist = require('./utils/fetchGist')
 
 /**
  * this method is called when your extension is activated
@@ -33,9 +34,12 @@ function activate(context) {
 		if (!chosenLanguage) {
 			vscode.window.showErrorMessage('invalid language choice')
 			return
-    }
-    let gistToFetch = gists.algorithms[chosenAlgorithm.name][chosenLanguage.name]
-    
+		}
+		let gistToFetch =
+			gists.algorithms[chosenAlgorithm.name][chosenLanguage.name]
+		let fetchedGist = await fetchGist(gistToFetch).catch((err) => {
+			vscode.window.showErrorMessage(err.message)
+		})
 	})
 }
 exports.activate = activate
