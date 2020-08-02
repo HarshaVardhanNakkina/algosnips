@@ -39,7 +39,7 @@ function activate(context) {
 			gists.algorithms[chosenAlgorithm.name][chosenLanguage.name]
 		let fetchedGist = await fetchGist(gistToFetch).catch((err) => {
 			vscode.window.showErrorMessage(err.message)
-		})
+    })
 	})
 }
 exports.activate = activate
