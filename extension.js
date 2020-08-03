@@ -5,6 +5,7 @@ const gists = require('./utils/gists.json')
 const showAlgorithmPicker = require('./utils/showAlgorithmPicker')
 const showLanguagePicker = require('./utils/showLanguagePicker')
 const fetchGist = require('./utils/fetchGist')
+const showActionPicker = require('./utils/showActionPicker')
 
 /**
  * this method is called when your extension is activated
@@ -14,7 +15,7 @@ const fetchGist = require('./utils/fetchGist')
 function activate(context) {
 	vscode.commands.registerCommand('algosnips.search', async () => {
 		// Show search bar to choose an algorithm
-		let chosenAlgorithm = await showAlgorithmPicker().catch((err) => {
+		let chosenAlgorithm = await showAlgorithmPicker().catch(err => {
 			vscode.window.showErrorMessage(err.message)
 		})
 		if (!chosenAlgorithm) {
@@ -24,7 +25,7 @@ function activate(context) {
 		// once the algorithm is chosen,
 		// let the user choose a language
 		let chosenLanguage = await showLanguagePicker(chosenAlgorithm).catch(
-			(err) => {
+			err => {
 				vscode.window.showErrorMessage(err.message)
 			}
 		)
@@ -34,10 +35,18 @@ function activate(context) {
 		}
 
 		let fetchedGist = await fetchGist(chosenAlgorithm, chosenLanguage).catch(
-			(err) => {
+			err => {
 				vscode.window.showErrorMessage(err.message)
 			}
 		)
+		if (!fetchedGist || fetchedGist.length == 0) {
+			vscode.window.showErrorMessage(
+				`unable to find gist for ${chosenAlgorithm.name} in ${chosenLanguage.name}`
+			)
+			return
+    }
+    showActionPicker(fetchedGist)
+    
 	})
 }
 exports.activate = activate
