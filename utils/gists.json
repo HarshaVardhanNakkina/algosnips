@@ -1,13 +1,16 @@
 {
 	"algorithms": {
 		"merge sort": {
-			"C": {
-				"filename": "mergesort.c",
-				"gistId": "a31b8ce02f8e1a251f12a2226fbca1cc"
-			},
-			"CPP": {},
-			"JavaScript": {},
-			"Python": {}
+			"description": "merge sort recursive algorithm",
+			"languages": {
+				"C": {
+					"filename": "mergesort.c",
+					"gistId": "a31b8ce02f8e1a251f12a2226fbca1cc"
+				},
+				"CPP": {},
+				"JavaScript": {},
+				"Python": {}
+			}
 		},
 		"binary search": {
 			"C": {},
