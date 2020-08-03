@@ -20,18 +20,19 @@ function activate(context) {
 		if (!chosenAlgorithm) {
 			vscode.window.showErrorMessage('invalid algorithm choice')
 			return
-    }
+		}
 		// once the algorithm is chosen,
 		// let the user choose a language
-		let chosenLanguage = await showLanguagePicker(
-			Object.keys(gists.algorithms[chosenAlgorithm.name])
-		).catch((err) => {
-			vscode.window.showErrorMessage(err.message)
-		})
+		let chosenLanguage = await showLanguagePicker(chosenAlgorithm).catch(
+			(err) => {
+				vscode.window.showErrorMessage(err.message)
+			}
+		)
 		if (!chosenLanguage) {
 			vscode.window.showErrorMessage('invalid language choice')
 			return
-		}
+    }
+
 		let gistToFetch =
 			gists.algorithms[chosenAlgorithm.name][chosenLanguage.name]
 		let fetchedGist = await fetchGist(gistToFetch).catch((err) => {
