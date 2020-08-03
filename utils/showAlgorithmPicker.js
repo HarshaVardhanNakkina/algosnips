@@ -1,13 +1,23 @@
 const vscode = require('vscode')
 
-const showAlgorithmPicker = async (algorithms) => {
-  const items = algorithms.map((algo) => ({
-		label: algo,
-		description: `${algo} algorithm`,
-		name: algo,
-	}))
+const gists = require('./gists.json')
+
+const showAlgorithmPicker = async () => {
+	let algorithms = []
+	for (const [algo, { description }] of Object.entries(gists.algorithms)) {
+    algorithms.push({
+      label: algo,
+      name: algo,
+      description
+    })
+  }
+	// const items = algorithms.map((algo) => ({
+	// 	label: algo,
+	// 	description: `${algo} algorithm`,
+	// 	name: algo,
+	// }))
 	const algorithm = await vscode.window
-		.showQuickPick(items, {
+		.showQuickPick(algorithms, {
 			placeHolder: 'Choose an algorithm',
 			matchOnDescription: true,
 		})
