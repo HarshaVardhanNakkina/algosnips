@@ -21,9 +21,6 @@ function activate(context) {
 			vscode.window.showErrorMessage('invalid algorithm choice')
 			return
     }
-    
-    console.log(chosenAlgorithm);
-
 		// once the algorithm is chosen,
 		// let the user choose a language
 		let chosenLanguage = await showLanguagePicker(
