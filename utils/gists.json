@@ -2,33 +2,35 @@
 	"algorithms": {
 		"merge sort": {
 			"description": "merge sort recursive algorithm",
+			"gistId": "a31b8ce02f8e1a251f12a2226fbca1cc",
 			"languages": {
 				"C": {
-					"filename": "mergesort.c",
-					"gistId": "a31b8ce02f8e1a251f12a2226fbca1cc"
+					"filename": "mergesort.c"
 				},
 				"CPP": {},
 				"JavaScript": {},
-				"Python": {}
+				"Python3": {
+          "filename": "mergesort.py"
+        }
 			}
 		},
 		"binary search": {
 			"C": {},
 			"CPP": {},
 			"JavaScript": {},
-			"Python": {}
+			"Python3": {}
 		},
 		"reverse string": {
 			"C": {},
 			"CPP": {},
 			"JavaScript": {},
-			"Python": {}
+			"Python3": {}
 		},
 		"quick sort": {
 			"C": {},
 			"CPP": {},
 			"JavaScript": {},
-			"Python": {}
+			"Python3": {}
 		}
 	}
 }

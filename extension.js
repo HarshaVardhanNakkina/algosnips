@@ -31,13 +31,13 @@ function activate(context) {
 		if (!chosenLanguage) {
 			vscode.window.showErrorMessage('invalid language choice')
 			return
-    }
+		}
 
-		let gistToFetch =
-			gists.algorithms[chosenAlgorithm.name][chosenLanguage.name]
-		let fetchedGist = await fetchGist(gistToFetch).catch((err) => {
-			vscode.window.showErrorMessage(err.message)
-		})
+		let fetchedGist = await fetchGist(chosenAlgorithm, chosenLanguage).catch(
+			(err) => {
+				vscode.window.showErrorMessage(err.message)
+			}
+		)
 	})
 }
 exports.activate = activate
