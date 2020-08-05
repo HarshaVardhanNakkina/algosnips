@@ -11,11 +11,6 @@ const showAlgorithmPicker = async () => {
       description
     })
   }
-	// const items = algorithms.map((algo) => ({
-	// 	label: algo,
-	// 	description: `${algo} algorithm`,
-	// 	name: algo,
-	// }))
 	const algorithm = await vscode.window
 		.showQuickPick(algorithms, {
 			placeHolder: 'Choose an algorithm',

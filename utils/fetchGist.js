@@ -2,12 +2,14 @@ const vscode = require('vscode')
 const got = require('got')
 
 const gists = require('./gists.json')
+const settings = require('../settings')
 
 const fetchGist = async (chosenAlgorithm, chosenLanguage) => {
 	const { gistId } = gists.algorithms[chosenAlgorithm.name]
 	const { filename } = gists.algorithms[chosenAlgorithm.name].languages[
 		chosenLanguage.name
 	]
+	const { baseUrl } = settings
 	return vscode.window.withProgress(
 		{
 			title: `algosnips: fetching the code for the algorithm`,
@@ -19,9 +21,7 @@ const fetchGist = async (chosenAlgorithm, chosenLanguage) => {
 				console.debug('algosnips: fetch has been cancelled')
 				return Promise.reject()
 			})
-			let res = await got(
-				`https://gist.githubusercontent.com/HarshaVardhanNakkina/${gistId}/raw/${filename}`
-			).catch((err) => {
+			let res = await got(`${baseUrl}/${gistId}/raw/${filename}`).catch(err => {
 				vscode.window.showErrorMessage(err.message)
 			})
 			if (res.statusCode !== 200) {
