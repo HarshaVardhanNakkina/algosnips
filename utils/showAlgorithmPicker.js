@@ -1,6 +1,8 @@
 const vscode = require('vscode')
+const Cache = require('vscode-cache')
 
 const gists = require('./gists.json')
+const settings = require('../settings')
 
 const showAlgorithmPicker = async () => {
 	let algorithms = []
@@ -18,7 +20,11 @@ const showAlgorithmPicker = async () => {
 		})
 		.catch((err) => {
 			vscode.window.showErrorMessage(err.message)
-		})
+    })
+  let snippetCache = new Cache(settings.context, 'snippets')
+  if (!snippetCache.has(algorithm.name)) {
+    snippetCache.put(algorithm.name, {}, settings.cacheTime ? settings.cacheTime : 21600)
+  }
 	return algorithm
 }
 

@@ -1,14 +1,35 @@
 const vscode = require('vscode')
 const got = require('got')
+const Cache = require('vscode-cache')
 
 const gists = require('./gists.json')
 const settings = require('../settings')
 
 const fetchGist = async (chosenAlgorithm, chosenLanguage) => {
-	const { gistId } = gists.algorithms[chosenAlgorithm.name]
-	const { filename } = gists.algorithms[chosenAlgorithm.name].languages[
-		chosenLanguage.name
-	]
+	let snippetCache = new Cache(settings.context, 'snippets')
+	const { name: algo } = chosenAlgorithm
+	const { name: lang } = chosenLanguage
+	console.log(snippetCache.getAll())
+	if (snippetCache.has(algo)) {
+		let algoCache = snippetCache.get(algo)
+		if (algoCache[lang] && algoCache[lang].length > 0) return algoCache[lang]
+
+		algoCache = { ...algoCache, [lang]: '' }
+		snippetCache.put(
+			algo,
+			algoCache,
+			settings.cacheTime ? settings.cacheTime : 21600
+		)
+	} else {
+		snippetCache.put(
+			algo,
+			{ [lang]: '' },
+			settings.cacheTime ? settings.cacheTime : 21600
+		)
+	}
+
+	const { gistId } = gists.algorithms[algo]
+	const { filename } = gists.algorithms[algo].languages[lang]
 	const { baseUrl } = settings
 	return vscode.window.withProgress(
 		{
@@ -38,7 +59,15 @@ const fetchGist = async (chosenAlgorithm, chosenLanguage) => {
 					`algosnips: sorry, ${filename} was not found`
 				)
 				return false
-			}
+      }
+      
+      let algoCache = snippetCache.get(algo)
+      algoCache = { ...algoCache, [lang]: body }
+      snippetCache.put(
+        algo,
+        algoCache,
+        settings.cacheTime ? settings.cacheTime : 21600
+      )
 			return body
 		}
 	)

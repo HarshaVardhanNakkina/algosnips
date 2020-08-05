@@ -27,6 +27,7 @@
 		"vscode": "^1.1.37"
 	},
 	"dependencies": {
-		"got": "^11.5.1"
+		"got": "^11.5.1",
+		"vscode-cache": "^0.3.0"
 	}
 }
