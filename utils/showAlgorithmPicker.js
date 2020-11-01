@@ -7,24 +7,24 @@ const settings = require('../settings')
 const showAlgorithmPicker = async () => {
 	let algorithms = []
 	for (const [algo, { description }] of Object.entries(gists.algorithms)) {
-    algorithms.push({
-      label: algo,
-      name: algo,
-      description
-    })
-  }
+		algorithms.push({
+			label: algo,
+			name: algo,
+			description
+		})
+	}
 	const algorithm = await vscode.window
 		.showQuickPick(algorithms, {
 			placeHolder: 'Choose an algorithm',
-			matchOnDescription: true,
+			matchOnDescription: true
 		})
-		.catch((err) => {
+		.catch(err => {
 			vscode.window.showErrorMessage(err.message)
-    })
-  let snippetCache = new Cache(settings.context, 'snippets')
-  if (!snippetCache.has(algorithm.name)) {
-    snippetCache.put(algorithm.name, {}, settings.cacheTime ? settings.cacheTime : 21600)
-  }
+		})
+	let snippetCache = new Cache(settings.context, 'snippets')
+	if (algorithm && algorithm.name && !snippetCache.has(algorithm.name)) {
+		snippetCache.put(algorithm.name, {}, settings.cacheTime ? settings.cacheTime : 21600)
+	}
 	return algorithm
 }
 

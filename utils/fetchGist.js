@@ -9,23 +9,15 @@ const fetchGist = async (chosenAlgorithm, chosenLanguage) => {
 	let snippetCache = new Cache(settings.context, 'snippets')
 	const { name: algo } = chosenAlgorithm
 	const { name: lang } = chosenLanguage
-	console.log(snippetCache.getAll())
+
 	if (snippetCache.has(algo)) {
 		let algoCache = snippetCache.get(algo)
 		if (algoCache[lang] && algoCache[lang].length > 0) return algoCache[lang]
 
 		algoCache = { ...algoCache, [lang]: '' }
-		snippetCache.put(
-			algo,
-			algoCache,
-			settings.cacheTime ? settings.cacheTime : 21600
-		)
+		snippetCache.put(algo, algoCache, settings.cacheTime ? settings.cacheTime : 21600)
 	} else {
-		snippetCache.put(
-			algo,
-			{ [lang]: '' },
-			settings.cacheTime ? settings.cacheTime : 21600
-		)
+		snippetCache.put(algo, { [lang]: '' }, settings.cacheTime ? settings.cacheTime : 21600)
 	}
 
 	const { gistId } = gists.algorithms[algo]
@@ -35,7 +27,7 @@ const fetchGist = async (chosenAlgorithm, chosenLanguage) => {
 		{
 			title: `algosnips: fetching the code for the algorithm`,
 			location: vscode.ProgressLocation.Notification,
-			cancellable: true,
+			cancellable: true
 		},
 		async (progress, token) => {
 			token.onCancellationRequested(() => {
@@ -55,19 +47,13 @@ const fetchGist = async (chosenAlgorithm, chosenLanguage) => {
 			const { body } = res
 
 			if (body.length === 0) {
-				vscode.window.showErrorMessage(
-					`algosnips: sorry, ${filename} was not found`
-				)
+				vscode.window.showErrorMessage(`algosnips: sorry, ${filename} was not found`)
 				return false
-      }
-      
-      let algoCache = snippetCache.get(algo)
-      algoCache = { ...algoCache, [lang]: body }
-      snippetCache.put(
-        algo,
-        algoCache,
-        settings.cacheTime ? settings.cacheTime : 21600
-      )
+			}
+
+			let algoCache = snippetCache.get(algo)
+			algoCache = { ...algoCache, [lang]: body }
+			snippetCache.put(algo, algoCache, settings.cacheTime ? settings.cacheTime : 21600)
 			return body
 		}
 	)
